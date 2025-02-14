@@ -4,7 +4,7 @@ export default function TodoList({ todos, deleteTodo }) {
       {todos.map((todo) => (
         <li
           key={todo.id}
-          className="flex justify-between items-center p-2 border-b"
+          className="flex justify-between items-center gap-4 pb-2 pt-2 border-b w-full"
         >
           <span>{todo.title}</span>
           <button

@@ -48,7 +48,7 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-4 bg-white shadow-md rounded-lg">
+    <div className="max-w-xl mx-auto mt-10 p-4 bg-white shadow-md rounded-lg">
       <h1 className="text-xl font-bold text-center mb-4">Todo App</h1>
       <TodoForm addTodo={addTodo} />
       <TodoList todos={todos} deleteTodo={deleteTodo} />
