@@ -1,28 +1,38 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 import TodoList from "./components/TodoList";
 import TodoForm from "./components/TodoForm";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
+  const getTodos = async () => {
+    try {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/todos?_limit=10"
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+      return [];
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
-      .then((response) => setTodos(response.data))
-      .catch((error) => console.error("Error fetching todos:", error));
+    const fetchData = async () => {
+      const data = await getTodos();
+      setTodos(data);
+    };
+    fetchData();
   }, []);
 
   const addTodo = async (title) => {
     if (!title.trim()) return;
-    const todo = { title, completed: false };
+    const todo = { id: uuidv4(), title, completed: false };
     try {
-      const response = await axios.post(
-        "https://jsonplaceholder.typicode.com/todos",
-        todo
-      );
-      setTodos([response.data, ...todos]);
+      await axios.post("https://jsonplaceholder.typicode.com/todos", todo);
+      setTodos((prevTodos) => [todo, ...prevTodos]);
     } catch (error) {
       console.error("Error adding todo:", error);
     }
